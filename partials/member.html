@@ -20,6 +20,10 @@
             animation: 0.2s my_animation;
         }
 
+        .ng-hide.ng-hide-animate{
+     display: none !important;
+    }
+
         @keyframes my_animation {
             from {
                 opacity: 1;
@@ -55,32 +59,84 @@
             <br>
             <br>
 
-            <div class="card black-text z-depth-4">
+              <div ng-show=!toggleEdit class="card black-text z-depth-4">
                 <div class="card-content">
                     <h4>Add Member</h4>
                     <form id="fMember">
                         <ul>
-                            <li>
-                                <input placeholder="Full Name" id="names" type="text" class="validate" ng-model="names" required="" aria-required="true">
-                            </li>
-                            <li>
-                                <input placeholder="Position" id="position" type="text" class="validate" ng-model="position" required="" aria-required="true">
-                            </li>
-                            <li>
-                                <input placeholder="Image Url" id="image" type="text" class="validate" ng-model="imageurl" required="" aria-required="true">
-                            </li>
+                          <li>
+                              <label for="names"><i class="material-icons"></i>Full Name</label>
+                              <input  id="names" type="text"   class="validate" ng-model="names" required="" aria-required="true">
+
+                          </li>
+                          <li>
+                            <label for="position"><i class="material-icons"></i>Position</label>
+
+                              <input  id="position" type="text"   class="validate" ng-model="position" required="" aria-required="true">
+
+                          </li>
+                          <li>
+                            <label for="image"><i class="material-icons"></i>Image Url</label>
+
+                              <input  id="image" type="text"   ng-model="imageurl" required="" aria-required="true">
+
+                          </li>
                         </ul>
                     </form>
 
-                    <button class="btn waves-effect waves-light #01579b light-blue darken-4" ng-click="addMember()">Add
+                    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="addMember()">Add
                         <i class="material-icons right">input</i>
                     </button>
-                    <button class="btn waves-effect waves-light #01579b light-blue darken-4" ng-show=toggleedit ng-click="ShowHide()">Cancel
+
+                    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideAdd()">Cancel
                         <i class="material-icons right">swap_vert</i>
                     </button>
 
                 </div>
             </div>
+
+            <div ng-show=toggleEdit class="card black-text z-depth-4">
+                <div class="card-content">
+                    <h4>Edit Member</h4>
+                    <form id="fMember">
+                        <ul>
+                          <li>
+                              <label for="names"><i class="material-icons"></i>Full Name</label>
+                              <input  id="names" type="text"   class="validate" ng-model="names" required="" aria-required="true">
+
+                          </li>
+                          <li>
+                            <label for="position"><i class="material-icons"></i>Position</label>
+
+                              <input  id="position" type="text"    ng-model="position" required="" aria-required="true">
+
+                          </li>
+                          <li>
+                            <label for="image"><i class="material-icons"></i>Image Url</label>
+
+                              <input  id="image" type="text"   class="validate" ng-model="imageurl" required="" aria-required="true">
+
+                          </li>
+
+
+
+                        </ul>
+                    </form>
+
+                    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="editDone()">Done
+                        <i class="material-icons right">input</i>
+                    </button>
+
+                    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideEdit()">Cancel
+                        <i class="material-icons right">swap_vert</i>
+                    </button>
+
+                </div>
+            </div>
+
+
+
+
         </div>
         <div class="col s6">
             <br>
@@ -127,13 +183,8 @@
 
         <br>
         <br>
-        <!-- <div class="center-align">
-  <button class="btn waves-effect waves-light light-blue darken-4 " ng-show="!toggleVisible"  ng-click="ShowHide()" name="action">Add Member
-    <i class="material-icons right">add</i>
-  </button>
-</div> -->
         <div class="fixed-action-btn " style="bottom: 45px; right: 24px;">
-            <a class="btn-floating btn-large red z-depth-4" ng-show="!toggleVisible" ng-click="ShowHide()">
+            <a class="btn-floating btn-large red z-depth-4" ng-show="!toggleVisible" ng-click="ShowHideAdd()">
                 <i class="material-icons">add</i>
             </a>
         </div>
@@ -144,16 +195,12 @@
             <div class="row">
                 <div class="s12 col">
 
-                    <!-- <form class="forms forms-inline input-field ">
-                  <input type="text" class="input-big width-50 " id="query" ng-model="query">
-                  <label for="query">Search</label>
-              </form> -->
 
                     <ul class="collection z-depth-4">
 
-                        <li class="collection-item avatar repeated-item " ng-repeat="mem in Members | filter:{name: query}">
-                            <a href="" class="modal-trigger title"><img ng-src="{{mem.image}}" alt="" class="circle"> {{mem.name}}</a>
-                            <a class=" cursor" ng-click="editUser(mem)"><i class="material-icons"  style="cursor:pointer">mode_edit</i></a>
+                        <li class="collection-item avatar repeated-item " ng-repeat="mem in Members | filter:{names: query}">
+                            <a href="" class="modal-trigger title"><img ng-src="{{mem.image}}" alt="" class="circle"> {{mem.names}}</a>
+                            <a class=" cursor" ng-click="editMode(mem)"><i class="material-icons"  style="cursor:pointer">mode_edit</i></a>
                             <p>{{mem.position}}</p>
                             <a class="secondary-content cursor" ng-click="removeUser(mem)"><i class="material-icons" style="cursor:pointer">delete</i></a>
 

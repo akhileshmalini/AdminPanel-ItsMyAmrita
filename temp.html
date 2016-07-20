@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
+  <title>Parallax Template - Materialize</title>
+
+  <script src="js/materialize.clockpicker.js"></script>
+
+  <!-- CSS  -->
+  <link type="text/css" rel="stylesheet" href="css/materialize.clockpicker.css" media="screen,projection" />
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+
+
+</head>
+<body>
+  <nav class="white" role="navigation">
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo">Logo</a>
+      <ul class="right hide-on-med-and-down">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+
+      <ul id="nav-mobile" class="side-nav">
+        <li><a href="#">Navbar Link</a></li>
+      </ul>
+      <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
+    </div>
+  </nav>
+
+<div class="row">
+  <div class="container">
+    <div ng-show=!toggleEdit class="card black-text z-depth-4">
+        <div class="card-content">
+            <h4>Add Event</h4>
+
+            <form id="fEvent">
+                <ul>
+                  <li>
+                      <label for="evName"><i class="material-icons"></i>Event Name</label>
+                      <input  id="evName" type="text"   class="validate" ng-model="evNames" required="" aria-required="true">
+
+                  </li>
+                  <li>
+
+                    <div class="row">
+                      <form class="col s12">
+                          <div class="input-field col s12">
+                            <textarea id="evDesc" class="materialize-textarea validate" ng-model="evDescrip" required="" aria-required="true"></textarea>
+                            <label for="evDesc">Description</label>
+                          </div>
+                      </form>
+                    </div>
+
+
+
+                  </li>
+                  <li>
+                    <label for="poster"><i class="material-icons"></i>Poster URL</label>
+
+                      <input  id="poster" type="text"   ng-model="posterurl" required="" aria-required="true">
+
+                  </li>
+                  <li>
+                      <time-date-picker ng-model="dateValue"></time-date-picker>
+                  </li>
+
+                  <li>
+<input type="date" class="datepicker">
+                  </li>
+
+                  <li>
+
+
+                    <div class="row">
+                                        <div class="input-field col s12">
+                                            <label for="timepicker_ampm_dark">Time am/pm ( dark theme )</label>
+                                            <input id="timepicker_ampm_dark" class="timepicker" type="time">
+                                        </div>
+                                    </div>
+
+                  </li>
+
+                </ul>
+            </form>
+
+
+
+
+            <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="addMember()">Add
+                <i class="material-icons right">input</i>
+            </button>
+
+            <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHide()">Cancel
+                <i class="material-icons right">swap_vert</i>
+            </button>
+
+        </div>
+    </div>
+
+
+  </div>
+</div>
+
+  <!--  Scripts-->
+  <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+  <script src="js/materialize.js"></script>
+  <script src="js/init.js"></script>
+  <script src="js/init.js"></script>
+
+<script >
+$('.datepicker').pickadate({
+ selectMonths: true, // Creates a dropdown to control month
+ selectYears: 15 // Creates a dropdown of 15 years to control year
+});
+
+$('.timepicker').pickatime({
+    default: 'now',
+    twelvehour: false, // change to 12 hour AM/PM clock from 24 hour
+    donetext: 'OK',
+  autoclose: false,
+  vibrate: true // vibrate the device when dragging clock hand
+});
+$('#timepicker_ampm_dark').pickatime({
+  darktheme: true
+});
+
+
+</script>
+
+  </body>
+</html>

@@ -16,7 +16,7 @@ myApp.run(["$rootScope", "$location", 'Auth', function($rootScope, $location, Au
                 if(lastPart==="login")
                 {
                   event.preventDefault();
-                  $location.path('/members');
+                  $location.path('/dashboard');
                 }
 
 
@@ -58,6 +58,24 @@ myApp.config(['$routeProvider', function($routeProvider) {
     when('/members', {
         templateUrl: 'partials/member.html',
         controller: 'MemberController',
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/dashboard', {
+        templateUrl: 'partials/console.html',
+        controller: 'ConsoleController',
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/events', {
+        templateUrl: 'partials/event.html',
+        controller: 'EventController',
         resolve: {
             "currentAuth": ["Auth", function(Auth) {
                 return Auth.$requireSignIn();

@@ -1,0 +1,389 @@
+<section class="eventPage">
+
+    <style>
+        nav .nav-wrapper form,
+        nav .nav-wrapper form .input-field {
+            height: 100%;
+        }
+
+        .descText {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            /* number of lines to show */
+        }
+
+        .repeated-item.ng-enter,
+        .repeated-item.ng-move {
+            transition: all 0.4s linear;
+            opacity: 0;
+        }
+
+        .repeated-item.ng-enter.ng-enter-active,
+        .repeated-item.ng-move.ng-move-active {
+            opacity: 1;
+        }
+
+        .repeated-item.ng-leave {
+            animation: 0.2s my_animation;
+        }
+
+        .ng-hide.ng-hide-animate {
+            display: none !important;
+        }
+
+        @keyframes my_animation {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .c-btn {
+            font-size: 14px;
+            text-transform: capitalize;
+            font-weight: 600;
+            display: inline-block;
+            line-height: 36px;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            min-width: 88px;
+            height: 36px;
+            margin: 10px 8px;
+            padding: 0 8px;
+            text-align: center;
+            letter-spacing: .5px;
+            border-radius: 2px;
+            background: #F1F1F1;
+            color: #393939;
+            transition: background 200ms ease-in-out;
+            box-shadow: 0 3.08696px 5.82609px 0 rgba(0, 0, 0, 0.16174), 0 3.65217px 12.91304px 0 rgba(0, 0, 0, 0.12435);
+        }
+
+        .c-btn--flat {
+            background: transparent;
+            margin: 10px 8px;
+            min-width: 52px;
+        }
+
+        .c-btn:hover {
+            background: rgba(153, 153, 153, 0.2);
+            color: #393939;
+        }
+
+        .c-btn:active {
+            box-shadow: 0 9.6087px 10.78261px 0 rgba(0, 0, 0, 0.17217), 0 13.56522px 30.3913px 0 rgba(0, 0, 0, 0.15043);
+        }
+
+        .c-btn--flat,
+        .c-btn--flat:hover,
+        .c-btn--flat:active {
+            box-shadow: none;
+        }
+    </style>
+
+
+    <nav class="#01579b light-blue darken-4 z-depth-4" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo white-text center-align">Events</a>
+        </div>
+    </nav>
+
+    <nav>
+        <div class="nav-wrapper blue darken-2">
+            <form>
+                <div class="input-field">
+                    <input id="query" ng-model="query" type="search" required>
+                    <label for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                </div>
+            </form>
+        </div>
+    </nav>
+
+
+    <div ng-show="toggleVisible" class="white-text row section #263238 blue-grey darken-4 ">
+        <div class="row">
+
+            <!-- ....................................................................................................................................... -->
+            <div ng-show=!toggleEdit class="container">
+
+                <div class="card black-text z-depth-4">
+                    <div class="card-content">
+                        <h4>Add Event</h4>
+                        <form name="fEvent" novalidate>
+                            <ul>
+                                <li>
+                                    <div class=" col s12">
+
+                                        <label for="evName"><i class="material-icons"></i>Event Name</label>
+                                        <input id="evName" class="validate" name="evName" type="text" ng-model="evNames" required aria-required="true">
+
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="col s12">
+                                        <label for="evDesc">Description</label>
+
+                                        <textarea id="evDesc" class="validate materialize-textarea " ng-model="evDescrip" required aria-required="true"></textarea>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class=" col s12">
+
+                                        <label for="poster">Poster URL</label>
+                                        <input id="poster" class="validate" type="text" ng-model="evPosterurl" required aria-required="true">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+
+
+                                        <div class="input-field col s3">
+
+                                            <a ng-click="DateSet()"><i class="material-icons" style="cursor:pointer;float: right">today</i></a>
+                                            <div style="overflow: hidden; padding-right: .5em;">
+
+                                                <input id="date" disabled placeholder="Date" type="text" required ng-model="evDate" style="width: 100%;" class="validate"></input>
+                                            </div>​
+
+                                        </div>
+
+
+
+
+                                        <div class=" input-field col s3">
+                                            <a ng-click="TimeSet()"><i class="material-icons" style="cursor:pointer;float: right">av_timer</i></a>
+                                            <div style="overflow: hidden; padding-right: .5em;">
+
+                                                <input id="time" disabled placeholder="Time" type="text" required ng-model="evTime" style="width: 100%;" class="validate"></input>
+                                            </div>​
+
+
+
+                                        </div>
+                                        <div class=" col s6">
+                                            <label for="icon_prefix2">Location</label>
+                                            <input id="icon_prefix2" class="validate" ng-model="evLocation" required type="text"></input>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="input-field col s3 offset-s1">
+                                            <h5>On-Duty Status</h5>
+                                            <p>
+                                                <input id="Provided" type="radio" required ng-model="onDuty" name="onDuty" value="Provided" checked>
+                                                <label for="Provided">Provided</label>
+                                            </p>
+                                            <p>
+                                                <input id="Undecided" type="radio" ng-model="onDuty" required name="onDuty" value="Undecided" checked>
+                                                <label for="Undecided">Undecided</label>
+                                            </p>
+                                            <p>
+                                                <input id="NotProvided" type="radio" ng-model="onDuty" required name="onDuty" value="NotProvided" checked="">
+                                                <label for="NotProvided">Not Provided</label>
+                                            </p>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col s5 offset-s1">
+
+
+                                            <label for="contactPerson">Contact Person</label>
+                                            <input ng-model="evContactPerson" class="validate" id="contactPerson" required type="text">
+
+
+
+                                            <label for="phone">Phone No.</label>
+                                            <input id="phone" class="validate" ng-model="evContactPhone" required type="text">
+
+                                        </div>
+                                </li>
+                                <br>
+                            </ul>
+                        </form>
+                        <div ng-messages="fEvent.$error">
+
+
+                            <p class="red-text" ng-message="required">Missing Fields* All Fields Are Mandatory. </p>
+                        </div>
+                        <button ng-disabled="fEvent.$invalid" class="btn waves-effect waves-light #01579b light-blue darken-4" ng-click="addEvent()">Add
+                            <i class="material-icons right">input</i>
+                        </button>
+                        <button class="btn waves-effect waves-light #01579b light-blue darken-4" ng-click="ShowHideAdd()">Cancel
+                            <i class="material-icons right">swap_vert</i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ....................................................................................................................................... -->
+
+
+
+            <div ng-show=toggleEdit class="container">
+
+                <div class="card black-text z-depth-4">
+                    <div class="card-content">
+                        <h4>Edit Event</h4>
+                        <form name="fEvent" novalidate>
+                            <ul>
+                                <li>
+                                    <div class="col s12">
+                                        <label for="evName">Event Name</label>
+                                        <input id="evName" name="evName" class="validate" type="text" ng-model="evNames" required aria-required="true">
+
+                                    </div>
+
+                                </li>
+                                <li>
+                                    <div class="col s12">
+                                        <label for="evDesc">Description</label>
+                                        <textarea id="evDesc" class="materialize-textarea validate " ng-model="evDescrip" required aria-required="true"></textarea>
+
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="col s12">
+                                        <label for="poster">Poster URL</label>
+                                        <input id="poster" class="validate" type="text" ng-model="evPosterurl" required aria-required="true">
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+
+
+                                        <div class="input-field col s3">
+
+                                            <a ng-click="DateSet()"><i class="material-icons" style="cursor:pointer;float: right">today</i></a>
+                                            <div style="overflow: hidden; padding-right: .5em;">
+
+                                                <input id="date" disabled placeholder="Date" type="text" required ng-model="evDate" style="width: 100%;" class="validate"></input>
+                                            </div>​
+
+                                        </div>
+
+
+
+
+                                        <div class=" input-field col s3">
+                                            <a ng-click="TimeSet()"><i class="material-icons" style="cursor:pointer;float: right">av_timer</i></a>
+                                            <div style="overflow: hidden; padding-right: .5em;">
+
+                                                <input id="time" disabled placeholder="Time" type="text" required ng-model="evTime" style="width: 100%;" class="validate"></input>
+                                            </div>​
+
+
+
+                                        </div>
+
+
+                                        <div class=" col s6">
+                                            <label for="icon_prefix2">Location</label>
+                                            <input id="icon_prefix2" ng-model="evLocation" required type="text"></input>
+
+                                        </div>
+                                    </div>
+                                </li>
+                                <li>
+                                    <div class="row">
+                                        <div class="col s3 offset-s1">
+                                            <h5>On-Duty Status</h5>
+                                            <p>
+                                                <input id="Provided" type="radio" required ng-model="onDuty" name="onDuty" value="Provided" checked>
+                                                <label for="Provided">Provided</label>
+                                            </p>
+                                            <p>
+                                                <input id="Undecided" type="radio" ng-model="onDuty" required name="onDuty" value="Undecided" checked>
+                                                <label for="Undecided">Undecided</label>
+                                            </p>
+                                            <p>
+                                                <input id="NotProvided" type="radio" ng-model="onDuty" required name="onDuty" value="NotProvided" checked="">
+                                                <label for="NotProvided">Not Provided</label>
+                                            </p>
+                                        </div>
+                                        <br>
+                                        <br>
+                                        <div class="col s5 offset-s1">
+
+
+                                            <label for="contactPerson">Contact Person</label>
+                                            <input ng-model="evContactPerson" class="validate" id="contactPerson" required type="text">
+
+
+
+
+                                            <label for="phone">Phone No.</label>
+                                            <input id="phone" class="validate" ng-model="evContactPhone" required type="text">
+
+                                        </div>
+                                </li>
+                                <br>
+                            </ul>
+                        </form>
+                        <div ng-messages="fEvent.$error">
+                            <p class="red-text" ng-message="required">Missing Fields* All Fields Are Mandatory. </p>
+                        </div>
+                        <button ng-disabled="fEvent.$invalid" class="btn waves-effect waves-light #01579b light-blue darken-4" ng-click="editDone()">Edit
+                            <i class="material-icons right">input</i>
+                        </button>
+                        <button class="btn waves-effect waves-light #01579b light-blue darken-4" ng-click="ShowHideEdit()">Cancel
+                            <i class="material-icons right">swap_vert</i>
+                        </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ....................................................................................................................................... -->
+
+
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="row">
+            <div class="s12 col">
+
+                <ul class="collection z-depth-4  ">
+                    <li class="collection-item avatar repeated-item  " ng-repeat="event in Events | filter:{evName: query}">
+                        <div class="row">
+                            <div class="col s3">
+                                <h5>{{event.evName}}</h5>
+                                <blockquote>
+                                    {{event.evDate}} | {{event.evTime}}
+                                </blockquote>
+                            </div>
+                            <div class="col s3 ">
+
+                            </div>
+                            <div class="col s12">
+                                <p class="descText listText">{{event.evDescription}}</p>
+                                <a class=" secondary-content cursor listText" ng-click="editMode(event)"><i class="material-icons"  style="cursor:pointer">mode_edit</i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+                                <a class="secondary-content cursor listText " ng-click="removeEvent(event)"><i class="material-icons" style="cursor:pointer">delete</i></a>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="fixed-action-btn " style="bottom: 45px; right: 24px;">
+        <a class="btn-floating btn-large red z-depth-4" ng-show="!toggleVisible" ng-click="ShowHideAdd()">
+            <i class="material-icons">add</i>
+        </a>
+    </div>
+
+</section>
