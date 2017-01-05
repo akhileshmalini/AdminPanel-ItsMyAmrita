@@ -4,7 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no"/>
   <title>Parallax Template - Materialize</title>
-
+  <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+  <script>tinymce.init({ selector:'textarea' });</script>
   <script src="js/materialize.clockpicker.js"></script>
 
   <!-- CSS  -->
@@ -31,80 +32,44 @@
     </div>
   </nav>
 
-<div class="row">
-  <div class="container">
-    <div ng-show=!toggleEdit class="card black-text z-depth-4">
-        <div class="card-content">
-            <h4>Add Event</h4>
 
-            <form id="fEvent">
-                <ul>
-                  <li>
-                      <label for="evName"><i class="material-icons"></i>Event Name</label>
-                      <input  id="evName" type="text"   class="validate" ng-model="evNames" required="" aria-required="true">
-
+  <div class="container" ng-controller="mainCtrl">
+      <div class="row">
+          <div class="s12 col">
+              <h3>Filter Select List</h3>
+              <h5>With Bottom Modal on MaterializeCSS + AngularJS</h5>
+              <br>
+              <form class="forms forms-inline input-field ">
+                  <input type="text" class="input-big width-50" id="query" ng-model="query">
+                  <label for="query">Filter</label>
+              </form>
+              <ul class="collection">
+                  <li class="collection-item avatar animated fadeInUp" style="-webkit-animation-duration:{{$index * 300}}ms" ng-repeat="u in users | filter:query | orderBy:'username'">
+                      <a href="" ng-click="modalDetails(u)" class="modal-trigger title"><img ng-src="{{u.picture.thumbnail}}" alt="" class="circle"> {{u.username}}</a>
+                      <p>{{u.location.city}}, {{u.location.state}}</p>
+                      <a href="#!" class="secondary-content" ng-click="removeUser(u)"><i class="small mdi-action-highlight-remove"></i></a>
                   </li>
-                  <li>
-
-                    <div class="row">
-                      <form class="col s12">
-                          <div class="input-field col s12">
-                            <textarea id="evDesc" class="materialize-textarea validate" ng-model="evDescrip" required="" aria-required="true"></textarea>
-                            <label for="evDesc">Description</label>
-                          </div>
-                      </form>
-                    </div>
-
-
-
-                  </li>
-                  <li>
-                    <label for="poster"><i class="material-icons"></i>Poster URL</label>
-
-                      <input  id="poster" type="text"   ng-model="posterurl" required="" aria-required="true">
-
-                  </li>
-                  <li>
-                      <time-date-picker ng-model="dateValue"></time-date-picker>
-                  </li>
-
-                  <li>
-<input type="date" class="datepicker">
-                  </li>
-
-                  <li>
-
-
-                    <div class="row">
-                                        <div class="input-field col s12">
-                                            <label for="timepicker_ampm_dark">Time am/pm ( dark theme )</label>
-                                            <input id="timepicker_ampm_dark" class="timepicker" type="time">
-                                        </div>
-                                    </div>
-
-                  </li>
-
-                </ul>
-            </form>
-
-
-
-
-            <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="addMember()">Add
-                <i class="material-icons right">input</i>
-            </button>
-
-            <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHide()">Cancel
-                <i class="material-icons right">swap_vert</i>
-            </button>
-
-        </div>
-    </div>
-
-
+              </ul>
+          </div>
+      </div>
+      <div id="modalDetails" class="modal bottom-sheet">
+          <div class="modal-content">
+              <div class="row">
+                  <div class="l2 col">
+                      <img ng-src="{{user.picture.medium}}" alt="" class="align-right circle">
+                  </div>
+                  <div class="l10 col">
+                      <h2>{{user.username}}</h2>
+                      <label>Email</label> {{user.email}} <br/>
+                      <label>Password</label> {{user.password}}
+                      <hr>
+                      <label>Phone</label> {{user.phone}} <br/>
+                      <label>Location</label> {{user.location.city}}, {{user.location.state}} <br/>
+                  </div>
+              </div>
+          </div>
+      </div>
   </div>
-</div>
-
   <!--  Scripts-->
   <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
   <script src="js/materialize.js"></script>

@@ -1,0 +1,12 @@
+<section class="eventPage">
+
+  <!-- form used to upload one or more images -->
+  <form>
+    Upload image <input type="file" ng-model="img" accept="image/*" id="file" />
+
+    <!-- executes js upload function with uploaded images -->
+    <button ng-click="upload()">Submit</button>
+
+    <p ng-bind="num"></p>
+  </form>
+</section>

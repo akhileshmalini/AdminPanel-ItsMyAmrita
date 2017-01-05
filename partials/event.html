@@ -15,6 +15,16 @@
             /* number of lines to show */
         }
 
+        .imgposter {
+    position: relative;
+    float: left;
+    width:  200px;
+    height: 200px;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+}
+
         .repeated-item.ng-enter,
         .repeated-item.ng-move {
             transition: all 0.4s linear;
@@ -358,7 +368,7 @@
                     <li class="collection-item avatar repeated-item  " ng-repeat="event in Events | filter:{evName: query}">
                         <div class="row">
                             <div class="col s3">
-                                <h5>{{event.evName}}</h5>
+                                <a href="" ng-click="modalDetails(event)" class="modal-trigger title"><h5>{{event.evName}}</h5></a>
                                 <blockquote>
                                     {{event.evDate}} | {{event.evTime}}
                                 </blockquote>
@@ -375,6 +385,33 @@
                         </div>
                     </li>
                 </ul>
+            </div>
+        </div>
+    </div>
+
+
+    <div id="eventDetails" class="modal bottom-sheet">
+        <div class="modal-content">
+            <div class="row">
+                <div class="l2 col">
+                    <img ng-src="{{event.evPoster}}" alt="" class="align-right imgposter">
+                </div>
+                <div class="l10 col">
+                    <h2>{{event.evName}}</h2>
+                    <div class="row">
+                      <blockquote>
+                          {{event.evDate}} | {{event.evTime}} @  {{event.evLocation}}
+                      </blockquote>
+                      <blockquote>
+                         Contact  {{event.evContactPerson}}, {{event.evContactPhone}}
+                      </blockquote>
+                      On-Duty Leave {{event.evOnDuty}}
+
+                    </div>
+                    <hr>
+                    <p>{{event.evDescription}}</p>
+
+                </div>
             </div>
         </div>
     </div>

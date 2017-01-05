@@ -6,7 +6,6 @@ var myApp = angular.module('myApp', [
 
 myApp.run(["$rootScope", "$location", 'Auth', function($rootScope, $location, Auth) {
     $rootScope.$on('$locationChangeStart', function(event, newUrl, oldUrl) {
-
         // any time auth state changes, add the user data to scope
         Auth.$onAuthStateChanged(function(firebaseUser) {
             Auth.firebaseUser = firebaseUser;
@@ -16,7 +15,7 @@ myApp.run(["$rootScope", "$location", 'Auth', function($rootScope, $location, Au
                 if(lastPart==="login")
                 {
                   event.preventDefault();
-                  $location.path('/dashboard');
+                  $location.path('/clubs');
                 }
 
 
@@ -64,9 +63,36 @@ myApp.config(['$routeProvider', function($routeProvider) {
             }]
         }
     }).
+    when('/homepage', {
+        templateUrl: 'partials/homepage.html',
+        controller: 'HomePageController',
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/faculty', {
+        templateUrl: 'partials/faculty.html',
+        controller: 'FacultyController',
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
     when('/dashboard', {
         templateUrl: 'partials/console.html',
         controller: 'ConsoleController',
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/clubs', {
+        templateUrl: 'partials/clubselect.html',
+        controller: 'ClubsController',
         resolve: {
             "currentAuth": ["Auth", function(Auth) {
                 return Auth.$requireSignIn();
@@ -82,6 +108,8 @@ myApp.config(['$routeProvider', function($routeProvider) {
             }]
         }
     }).
+
+
     otherwise({
         redirectTo: '/home'
     });

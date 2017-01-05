@@ -1,0 +1,209 @@
+<section class="eventPage">
+
+    <style>
+        nav .nav-wrapper form,
+        nav .nav-wrapper form .input-field {
+            height: 100%;
+        }
+
+        .descText {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 2;
+            /* number of lines to show */
+        }
+
+        .imgposter {
+    position: relative;
+    float: left;
+    width:  200px;
+    height: 200px;
+    background-position: 50% 50%;
+    background-repeat:   no-repeat;
+    background-size:     cover;
+}
+
+        .repeated-item.ng-enter,
+        .repeated-item.ng-move {
+            transition: all 0.4s linear;
+            opacity: 0;
+        }
+
+        .repeated-item.ng-enter.ng-enter-active,
+        .repeated-item.ng-move.ng-move-active {
+            opacity: 1;
+        }
+
+        .repeated-item.ng-leave {
+            animation: 0.2s my_animation;
+        }
+
+        .ng-hide.ng-hide-animate {
+            display: none !important;
+        }
+
+        @keyframes my_animation {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+
+        .c-btn {
+            font-size: 14px;
+            text-transform: capitalize;
+            font-weight: 600;
+            display: inline-block;
+            line-height: 36px;
+            cursor: pointer;
+            text-align: center;
+            text-transform: uppercase;
+            min-width: 88px;
+            height: 36px;
+            margin: 10px 8px;
+            padding: 0 8px;
+            text-align: center;
+            letter-spacing: .5px;
+            border-radius: 2px;
+            background: #F1F1F1;
+            color: #393939;
+            transition: background 200ms ease-in-out;
+            box-shadow: 0 3.08696px 5.82609px 0 rgba(0, 0, 0, 0.16174), 0 3.65217px 12.91304px 0 rgba(0, 0, 0, 0.12435);
+        }
+
+        .c-btn--flat {
+            background: transparent;
+            margin: 10px 8px;
+            min-width: 52px;
+        }
+
+        .c-btn:hover {
+            background: rgba(153, 153, 153, 0.2);
+            color: #393939;
+        }
+
+        .c-btn:active {
+            box-shadow: 0 9.6087px 10.78261px 0 rgba(0, 0, 0, 0.17217), 0 13.56522px 30.3913px 0 rgba(0, 0, 0, 0.15043);
+        }
+
+        .c-btn--flat,
+        .c-btn--flat:hover,
+        .c-btn--flat:active {
+            box-shadow: none;
+        }
+    </style>
+
+
+    <nav class="#01579b light-blue darken-4 z-depth-4" role="navigation">
+        <div class="nav-wrapper container">
+            <a id="logo-container" href="#" class="brand-logo white-text center-align">HomePage</a>
+        </div>
+    </nav>
+
+  <div ng-show="!toggleVisible">
+<div class="row">
+<div class="container">
+  <div ng-show=toggleEditDesc class="card black-text z-depth-4">
+    <div class="card-content">
+      <h4>Edit Description</h4>
+      <form id="fDesc">
+        <ul>
+          <li>
+            <div class="col s12">
+                <label for="evDesc">Description</label>
+                <textarea id="evDesc" class="validate materialize-textarea " ng-model="evDescrip" required aria-required="true"></textarea>
+            </div>
+          </li>
+        </ul>
+      </form>
+      <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="editDone()">Done
+        <i class="material-icons right">input</i>
+      </button>
+      <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideEdit()">Cancel
+        <i class="material-icons right">swap_vert</i>
+      </button>
+    </div>
+  </div>
+
+</div>
+</div>
+</div>
+
+
+<div ng-show="!toggleVisibleImage">
+<div class="row">
+<div class="container">
+<div ng-show=toggleEditImage class="card black-text z-depth-4">
+  <div class="card-content">
+    <h4>Edit Image</h4>
+    <form id="fDesc">
+      <ul>
+        <li>
+          <div class="col s12">
+              <label for="evImg"></label>
+              <textarea id="evImg" class="validate materialize-textarea " ng-model="evImage" required aria-required="true"></textarea>
+          </div>
+        </li>
+      </ul>
+    </form>
+    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="editDoneImage()">Done
+      <i class="material-icons right">input</i>
+    </button>
+    <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideEditImage()">Cancel
+      <i class="material-icons right">swap_vert</i>
+    </button>
+  </div>
+</div>
+
+</div>
+</div>
+</div>
+
+
+
+
+
+<div class="row">
+  <div class="row">
+     <div class="col s12 m6">
+       <div class="card blue-grey darken-1">
+         <div class="card-content white-text">
+           <span class="card-title">Club Description</span>
+           <p>{{description}}</p>
+         </div>
+         <div class="card-action">
+           <a ng-click="editModeDesc(description)" >Edit</a>
+         </div>
+       </div>
+     </div>
+   </div>
+
+   <div class="row">
+     <div class="col s12 m7">
+       <div class="card">
+         <div class="card-image">
+             <img style="width: auto;height: 120px;" ng-src="{{Image}}">
+         </div>
+
+         <div class="card-action">
+           <a ng-click="editModeImage(Image)">Change</a>
+         </div>
+       </div>
+     </div>
+   </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+</section>
