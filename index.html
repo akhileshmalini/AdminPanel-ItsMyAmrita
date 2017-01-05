@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp">
+
+<head>
+
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no" />
+
+
+    <title>itsMyAmrita Admin</title>
+
+
+
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="lib\angular\angular.min.js"></script>
+    <script src="lib\angular\angular-route.min.js"></script>
+    <script src="lib\angular\angular-messages.min.js"></script>
+    <script src="lib\angular\angular-animate.min.js"></script>
+    <script src="js\controller.js"></script>
+    <script src="js\app.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.14.1/moment.min.js"></script>
+    <script src="js/draggabilly.pkgd.min.js"></script>
+
+
+
+    <!-- AngularFire -->
+    <script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
+
+    <!-- CSS  -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection" />
+    <link href="css/materialdesignicons.min.css" media="all" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="css/mdDateTimePicker.css">
+
+    <style>
+        .blur:blur(10px);
+    </style>
+</head>
+
+
+
+<body class="grey lighten-3">
+
+
+    <div ng-view>
+    </div>
+
+
+
+    <!--  Scripts-->
+    <script src="js/mdDateTimePicker.js"></script>
+    <script src="js/materialize.js"></script>
+    <script src="js/init.js"></script>
+
+
+
+    <script src="https://www.gstatic.com/firebasejs/3.4.0/firebase.js"></script>
+    <script>
+        // Initialize Firebase
+        var config = {
+            apiKey: "AIzaSyCaAsd19q6vbKBG4Je2qX9X72vEH94Pxd0",
+            authDomain: "itsmyamrita-21d0b.firebaseapp.com",
+            databaseURL: "https://itsmyamrita-21d0b.firebaseio.com",
+            storageBucket: "itsmyamrita-21d0b.appspot.com",
+            messagingSenderId: "407471231841"
+        };
+        firebase.initializeApp(config);
+    </script>
+
+
+    <!-- <script src="js/login.js"></script> -->
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        $(document).ready(function() {
+            $('.slider').slider({
+                full_width: true
+            });
+        });
+        $(document).ready(function() {
+            $('.tooltipped').tooltip({
+                delay: 50
+            });
+        });
+        $(document).ready(function() {
+            $('.modal-trigger').leanModal();
+        });
+    </script>
+
+</body>
+
+</html>
