@@ -11,14 +11,11 @@ myApp.run(["$rootScope", "$location", 'Auth', function($rootScope, $location, Au
             Auth.firebaseUser = firebaseUser;
             var lastPart = newUrl.split("/").pop();
             if (firebaseUser) {
-                //whatevz :P he's logged in.
                 if(lastPart==="login")
                 {
                   event.preventDefault();
                   $location.path('/clubs');
                 }
-
-
             } else {
                 console.log("Signed out");
             }

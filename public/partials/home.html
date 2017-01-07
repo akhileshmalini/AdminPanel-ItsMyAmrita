@@ -2,59 +2,32 @@
 
   <!-- NavBar -->
   <nav class="#01579b light-blue darken-4 " role="navigation">
-      <div class="nav-wrapper container">
-          <a id="logo-container" href="#" class="brand-logo white-text center-align">Application</a>
-          <ul class="right hide-on-med-and-down">
-              <li><a class="white-text" href="#/login">Sign In</a></li>
-          </ul>
-          <ul id="nav-mobile" class="side-nav">
-              <li><a class="white-text" href="#/login">Sign In</a></li>
-          </ul>
-          <a  data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
-      </div>
+    <div class="nav-wrapper container">
+      <a id="logo-container" href="#" class="brand-logo white-text center-align">{{clubs}}</a>
+      <ul class="right hide-on-med-and-down">
+        <li>  {{ firebaseUser.displayName }}</li>
+        <li><a href="" ng-click="auth.$signOut()"class="white-text"><i class=" white-text right material-icons">input</i>Sign Out</a></li>
+        </ul>
+    </div>
   </nav>
 
 
 
-    <div id="index-banner" class="parallax-container">
-        <div class="slider">
-            <ul class="slides">
-                <li>
-                    <img src="http://placehold.it/450X250">
-                    <!-- random image -->
-                    <div class="caption center-align">
-                        <h3>This is our big Tagline!</h3>
-                        <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <li>
-                    <img src="http://placehold.it/450X250">
-                    <!-- random image -->
-                    <div class="caption left-align">
-                        <h3>Left Aligned Caption</h3>
-                        <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <li>
-                    <img src="http://placehold.it/450X250">
-                    <!-- random image -->
-                    <div class="caption right-align">
-                        <h3>Right Aligned Caption</h3>
-                        <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    </div>
-                </li>
-                <li>
-                    <img src="http://placehold.it/450X250">
-                    <!-- random image -->
-                    <div class="caption center-align">
-                        <h3>This is our big Tagline!</h3>
-                        <h5 class="light grey-text text-lighten-3">Here's our small slogan.</h5>
-                    </div>
-                </li>
-            </ul>
+  <div id="index-banner" class="parallax-container">
+    <div class="section no-pad-bot">
+      <div class="container">
+        <br><br>
+        <h1 class="header center blue-text ">Administrator Panel </h1>
+        <div class="row center">
+          <a href="#/login" id="download-button" class="btn-large waves-effect #01579b light-blue darken-4 waves-light  lighten-1">Go to Console</a>
         </div>
+        <br><br>
+
+      </div>
     </div>
-    <br>
+    <div class="parallax"><img src="background1.jpg" alt="Unsplashed background img 1"></div>
+  </div>
+
 
     <!--   Icon Section   -->
     <div class="row container">

@@ -10,16 +10,29 @@ newsControllers.factory("Auth", ["$firebaseAuth",
 ]);
 
 newsControllers.controller('HomeController', ['$scope', '$http', function($scope, $http) {
-
+  // Nothing Here Yet
 }]);
 
-
-newsControllers.controller('ClubsController', ['$scope', '$http', function($scope, $http) {
-
-
-}]);
+newsControllers.controller('ClubsController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
 
 
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }else{
+       var ref = firebase.database().ref();
+         aref = $firebaseArray(ref.child('Clubs').child('users'));
+         console.log(aref);
+     }
+
+   });
+
+  }]);
 
 newsControllers.controller("LoginController", ["$scope", "Auth", '$location',
     function($scope, Auth, $location) {
@@ -38,10 +51,29 @@ newsControllers.controller("LoginController", ["$scope", "Auth", '$location',
     }
 ]);
 
+newsControllers.controller('FacultyController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+     }else{
+       var ref = firebase.database().ref();
 
 
-newsControllers.controller('FacultyController', ['$scope', "currentAuth", '$http', "$firebaseArray", function($scope, $http, currentAuth, $firebaseArray) {
-var ref = firebase.database().ref();
+
+
+     }
+
+   });
+
+
+
+
+    var ref = firebase.database().ref();
 
     var link = window.location.href;
     var facs = link.substr(link.indexOf("?") + 1);
@@ -50,7 +82,7 @@ var ref = firebase.database().ref();
 
         var xobj = new XMLHttpRequest();
         xobj.overrideMimeType("application/json");
-        xobj.open('GET', 'json/'+facs+'s.json', true); // Replace 'my_data' with the path to your file
+        xobj.open('GET', 'json/' + facs + 's.json', true); // Replace 'my_data' with the path to your file
         xobj.onreadystatechange = function() {
             if (xobj.readyState == 4 && xobj.status == "200") {
                 // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
@@ -63,12 +95,12 @@ var ref = firebase.database().ref();
     $scope.Faculty = $firebaseArray(ref.child('Faculty').child(facs));
 
     $scope.remfac = function(user) {
-            dref = ref.child('Faculty').child(facs);
-            console.log(user);
-            $scope.Faculty.$remove(user).then(function(dref) {
-                dref.key === user.$id;
-            });
-            Materialize.toast('Faculty Removed :(', 4000);
+        dref = ref.child('Faculty').child(facs);
+        console.log(user);
+        $scope.Faculty.$remove(user).then(function(dref) {
+            dref.key === user.$id;
+        });
+        Materialize.toast('Faculty Removed :(', 4000);
     }
 
     $scope.refresh = function() {
@@ -83,7 +115,7 @@ var ref = firebase.database().ref();
             //     }
             // });
 
-              console.log(response);
+            console.log(response);
 
             var nref = $firebaseArray(ref.child('Faculty').child(facs));
 
@@ -107,125 +139,151 @@ var ref = firebase.database().ref();
 
 }]);
 
-newsControllers.controller('HomePageController', ['$scope', "currentAuth", '$http', "$firebaseArray", function($scope, $http, currentAuth, $firebaseArray) {
-  var link = window.location.href;
-  var club = link.substr(link.indexOf("?") + 1);
-  var ref = firebase.database().ref();
+newsControllers.controller('HomePageController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
 
 
-  aref = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('description'));
-  bref= $firebaseArray(ref.child('Clubs').child(club).child('Home').child('Image'));
 
-  aref.$loaded()
-      .then(function(){
-          angular.forEach(aref, function(user) {
-              console.log(user.description);
-              $scope.description=user.description;
-          })
-      });
+    var link = window.location.href;
+    var club = link.substr(link.indexOf("?") + 1);
+    var ref = firebase.database().ref();
+    $scope.clubs=club
 
-      bref.$loaded()
-          .then(function(){
-              angular.forEach(bref, function(user) {
-                  console.log(user.image);
-                  $scope.Image=user.image;
-              })
-          });
+    aref = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('description'));
+    bref = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('Image'));
 
-  $scope.toggleVisible = false;
-  $scope.toggleEdit = false;
+    aref.$loaded()
+        .then(function() {
+            angular.forEach(aref, function(user) {
+                console.log(user.description);
+                $scope.description = user.description;
+            })
+        });
 
-  $scope.toggleVisibleImage = false;
-  $scope.toggleEditImage = false;
+    bref.$loaded()
+        .then(function() {
+            angular.forEach(bref, function(user) {
+                console.log(user.image);
+                $scope.Image = user.image;
+            })
+        });
 
-  $scope.editModeDesc = function(description) {
-      $scope.toggleEditDesc = true;
-      $scope.evDescrip = description;
-      Materialize.toast('Edit Mode', 4000);
-  };
+    $scope.toggleVisible = false;
+    $scope.toggleEdit = false;
 
-  $scope.editModeImage = function(description) {
-      $scope.toggleEditImage = true;
-      $scope.evImage = description;
-      Materialize.toast('Edit Mode', 4000);
-  };
+    $scope.toggleVisibleImage = false;
+    $scope.toggleEditImage = false;
 
-  $scope.ShowHideEditImage = function() {
-      //If DIV is visible it will be hidden and vice versa.
-      $scope.toggleVisibleImage = $scope.toggleVisibleImage ? true : false;
-      $scope.toggleEditImage = false;
+    $scope.editModeDesc = function(description) {
+        $scope.toggleEditDesc = true;
+        $scope.evDescrip = description;
+        Materialize.toast('Edit Mode', 4000);
+    };
 
-  };
+    $scope.editModeImage = function(description) {
+        $scope.toggleEditImage = true;
+        $scope.evImage = description;
+        Materialize.toast('Edit Mode', 4000);
+    };
 
-  $scope.ShowHideEdit = function() {
-      //If DIV is visible it will be hidden and vice versa.
-      $scope.toggleVisible = $scope.toggleVisible ? true : false;
-      $scope.toggleEditDesc = false;
+    $scope.ShowHideEditImage = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisibleImage = $scope.toggleVisibleImage ? true : false;
+        $scope.toggleEditImage = false;
 
-  };
+    };
 
+    $scope.ShowHideEdit = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisible = $scope.toggleVisible ? true : false;
+        $scope.toggleEditDesc = false;
 
-  $scope.editDone = function() {
-
-      // var m = $scope.editEvent;
-      // keysa = m.$id;
-      var nref = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('description'));
-
-      var eref = ref.child('Clubs').child(club).child('Home').child('description');
-      eref.remove();
-      nref.$add({
-          description: $scope.evDescrip
-      });
-
-      $scope.description=$scope.evDescrip;
-      console.log($scope.evDescrip);
-
-      $scope.toggleVisible = false;
-      $scope.toggleEditDesc = false;
-
-      $scope.evDescrip = null;
+    };
 
 
-      Materialize.toast('Edit Sucessful', 4000);
-  };
+    $scope.editDone = function() {
 
-  $scope.editDoneImage = function() {
+        // var m = $scope.editEvent;
+        // keysa = m.$id;
+        var nref = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('description'));
 
-      // var m = $scope.editEvent;
-      // keysa = m.$id;
-      var nrefi = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('Image'));
+        var eref = ref.child('Clubs').child(club).child('Home').child('description');
+        eref.remove();
+        nref.$add({
+            description: $scope.evDescrip
+        });
 
-      var erefi = ref.child('Clubs').child(club).child('Home').child('Image');
-      erefi.remove();
-      nrefi.$add({
-          image: $scope.evImage
-      });
+        $scope.description = $scope.evDescrip;
+        console.log($scope.evDescrip);
 
-      $scope.Image=$scope.evImage;
-      console.log($scope.evImage);
+        $scope.toggleVisible = false;
+        $scope.toggleEditDesc = false;
 
-      $scope.toggleVisibleImage = false;
-      $scope.toggleEditImage = false;
-
-      $scope.evImage = null;
+        $scope.evDescrip = null;
 
 
-      Materialize.toast('Edit Sucessful', 4000);
-  };
+        Materialize.toast('Edit Sucessful', 4000);
+    };
+
+    $scope.editDoneImage = function() {
+
+        // var m = $scope.editEvent;
+        // keysa = m.$id;
+        var nrefi = $firebaseArray(ref.child('Clubs').child(club).child('Home').child('Image'));
+
+        var erefi = ref.child('Clubs').child(club).child('Home').child('Image');
+        erefi.remove();
+        nrefi.$add({
+            image: $scope.evImage
+        });
+
+        $scope.Image = $scope.evImage;
+        console.log($scope.evImage);
+
+        $scope.toggleVisibleImage = false;
+        $scope.toggleEditImage = false;
+
+        $scope.evImage = null;
+
+
+        Materialize.toast('Edit Sucessful', 4000);
+    };
 
 
 
 
 }]);
 
+newsControllers.controller('MemberController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
 
+  $scope.auth = Auth;
 
-newsControllers.controller('MemberController', ['$scope', "currentAuth", '$http', "$firebaseArray", function($scope, $http, currentAuth, $firebaseArray) {
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
+
 
 
     var link = window.location.href;
     var club = link.substr(link.indexOf("?") + 1);
-
+    $scope.clubs=club
 
     var ref = firebase.database().ref();
     $scope.toggleVisible = false;
@@ -336,7 +394,21 @@ newsControllers.controller('MemberController', ['$scope', "currentAuth", '$http'
     };
 }]);
 
-newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http', "$firebaseArray", function($scope, $http, currentAuth, $firebaseArray) {
+newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth, Auth,$firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
+
+
 
     var link = window.location.href;
     var club = link.substr(link.indexOf("?") + 1);
@@ -345,19 +417,27 @@ newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http
 
 }]);
 
+newsControllers.controller('EventController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth, Auth,$firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
 
 
 
-
-
-newsControllers.controller('EventController', ['$scope', "currentAuth", '$http', "$firebaseArray", function($scope, $http, currentAuth, $firebaseArray) {
     var ref = firebase.database().ref();
-
-
     var link = window.location.href;
     var club = link.substr(link.indexOf("?") + 1);
 
-
+    $scope.clubs=club
     $scope.toggleVisible = false;
     $scope.toggleEdit = false;
 

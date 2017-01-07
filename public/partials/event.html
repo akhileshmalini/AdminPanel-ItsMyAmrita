@@ -98,10 +98,14 @@
     </style>
 
 
-    <nav class="#01579b light-blue darken-4 z-depth-4" role="navigation">
-        <div class="nav-wrapper container">
-            <a id="logo-container" href="#" class="brand-logo white-text center-align">Events</a>
-        </div>
+    <nav class="#01579b light-blue darken-4 " role="navigation">
+      <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo white-text center-align">{{clubs}}</a>
+        <ul class="right hide-on-med-and-down">
+          <li>  {{ firebaseUser.displayName }}</li>
+          <li><a href="" ng-click="auth.$signOut()"class="white-text"><i class=" white-text right material-icons">input</i>Sign Out</a></li>
+          </ul>
+      </div>
     </nav>
 
     <nav>
