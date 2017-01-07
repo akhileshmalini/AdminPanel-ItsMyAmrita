@@ -4,7 +4,8 @@
   "description": "A console for The app ANews",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
@@ -15,5 +16,10 @@
   "bugs": {
     "url": "https://github.com/akhileshmalini/NewsWebsite/issues"
   },
-  "homepage": "https://github.com/akhileshmalini/NewsWebsite#readme"
+  "homepage": "https://github.com/akhileshmalini/NewsWebsite#readme",
+  "dependencies": {
+    "angular-materializecss-datepicker": "^0.1.2",
+    "vue-router": "^0.7.13"
+  },
+  "devDependencies": {}
 }
