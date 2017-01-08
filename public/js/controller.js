@@ -417,7 +417,7 @@ newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http
 
 }]);
 
-newsControllers.controller('EventController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth, Auth,$firebaseArray) {
+newsControllers.controller('EventController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope,currentAuth,$http, Auth,$firebaseArray) {
 
   $scope.auth = Auth;
 
@@ -433,9 +433,27 @@ newsControllers.controller('EventController', ['$scope', "currentAuth", '$http',
 
 
 
+
+
     var ref = firebase.database().ref();
     var link = window.location.href;
     var club = link.substr(link.indexOf("?") + 1);
+
+    $scope.SendNotification = function(datasa) {
+      message=club +" Presents "+ datasa.evName+"..."
+
+      var retVal = confirm(message+" is the Final message Are you 100% sure?");
+             if( retVal == true ){
+               var socket = io.connect('http://localhost:3000');
+               socket.emit('Notification', {title:club,events:datasa});
+             }
+
+
+
+
+
+    }
+
 
     $scope.clubs=club
     $scope.toggleVisible = false;

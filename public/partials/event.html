@@ -121,6 +121,8 @@
     </nav>
 
 
+
+
     <div ng-show="toggleVisible" class="white-text row section #263238 blue-grey darken-4 ">
         <div class="row">
 
@@ -376,6 +378,7 @@
                                 <blockquote>
                                     {{event.evDate}} | {{event.evTime}}
                                 </blockquote>
+                                <button ng-click="SendNotification(event)" class="waves-effect waves-light btn">Notification</button>
                             </div>
                             <div class="col s3 ">
 
