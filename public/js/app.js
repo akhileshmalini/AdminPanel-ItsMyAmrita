@@ -96,6 +96,36 @@ myApp.config(['$routeProvider', function($routeProvider) {
             }]
         }
     }).
+    when('/technical', {
+        templateUrl: 'partials/technical.html',
+        controller: 'ClubsController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/cultural', {
+        templateUrl: 'partials/cultural.html',
+        controller: 'ClubsController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/facselect', {
+        templateUrl: 'partials/facultyselect.html',
+        controller: 'ClubsController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
     when('/events', {
         templateUrl: 'partials/event.html',
         controller: 'EventController',
