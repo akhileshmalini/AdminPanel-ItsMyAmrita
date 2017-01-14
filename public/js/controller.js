@@ -265,6 +265,139 @@ newsControllers.controller('HomePageController', ['$scope', "currentAuth", '$htt
 
 }]);
 
+newsControllers.controller('MentorController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
+
+
+
+    var link = window.location.href;
+    var club = link.substr(link.indexOf("?") + 1);
+    $scope.clubs=club
+
+    var ref = firebase.database().ref();
+    $scope.toggleVisible = false;
+    $scope.toggleEdit = false;
+    $scope.ShowHideAdd = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisible = $scope.toggleVisible ? false : true;
+        $scope.toggleEdit = false;
+        $scope.names = null;
+        $scope.position = null;
+        $scope.imageurl = " ";
+        $scope.phone = " ";
+        $scope.email = " ";
+    };
+
+
+    $scope.ShowHideEdit = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisible = $scope.toggleVisible ? false : true;
+        $scope.toggleEdit = true;
+        $scope.names = null;
+        $scope.position = null;
+        $scope.imageurl = " ";
+        $scope.phone = " ";
+        $scope.email = " ";
+    };
+
+
+    $scope.Mentors = $firebaseArray(ref.child('Clubs').child(club).child('Mentors'));
+
+    $scope.addMentor = function() {
+        var nref = $firebaseArray(ref.child('Clubs').child(club).child('Mentors'));
+        nref.$add({
+            names: $scope.names,
+            image: $scope.imageurl,
+            position: $scope.position,
+            email: $scope.email,
+            phone: $scope.phone
+        });
+        $scope.toggleVisible = false;
+        Materialize.toast('Mentor Added :)', 4000);
+        $scope.names = null;
+        $scope.position = null;
+        $scope.imageurl = " ";
+    };
+
+
+
+    $scope.removeUser = function(user) {
+        dref = ref.child('Clubs').child(club).child('Mentors');
+        $scope.Mentors.$remove(user).then(function(dref) {
+            dref.key === user.$id;
+        });
+        Materialize.toast('Mentor Removed :(', 4000);
+    };
+
+    $scope.editMode = function(user) {
+        $scope.edituser = user;
+        $scope.names = user.names;
+        $scope.position = user.position;
+        $scope.imageurl = user.image;
+        $scope.email = user.email;
+        $scope.phone = user.phone;
+
+
+        $scope.toggleVisible = true;
+        $scope.toggleEdit = true;
+
+        Materialize.toast('Edit Mode', 4000);
+    };
+
+
+
+
+    $scope.editDone = function() {
+
+        var m = $scope.edituser;
+        keysa = m.$id;
+
+        var eref = ref.child('Clubs').child(club).child('Mentors');
+
+        console.log($scope.Mentors.length); // console.log(m.image);
+
+        for (i = 0; i < $scope.Mentors.length; i++) {
+            if ($scope.Mentors[i].$id === keysa) {
+                $scope.Mentors[i].names = $scope.names;
+                $scope.Mentors[i].image = $scope.imageurl;
+                $scope.Mentors[i].position = $scope.position;
+                $scope.Mentors[i].email = $scope.email;
+                $scope.Mentors[i].phone = $scope.phone;
+
+                $scope.Mentors.$save(i).then(function(ref) {
+                    ref.key === $scope.Mentors[i].$id; // true
+                });
+
+            }
+        }
+
+
+        $scope.toggleVisible = false;
+        $scope.toggleEdit = false;
+        $scope.names = null;
+        $scope.position = null;
+        $scope.imageurl = " ";
+        $scope.phone = " ";
+        $scope.email = " ";
+        Materialize.toast('Edit Sucessful', 4000);
+    };
+}]);
+
+
+
+
+
 newsControllers.controller('MemberController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
 
   $scope.auth = Auth;
@@ -393,6 +526,7 @@ newsControllers.controller('MemberController', ['$scope', "currentAuth", '$http'
         Materialize.toast('Edit Sucessful', 4000);
     };
 }]);
+
 
 newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth, Auth,$firebaseArray) {
 

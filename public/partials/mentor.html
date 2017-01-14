@@ -1,0 +1,214 @@
+<section class="MentorsPage">
+<style>
+nav .nav-wrapper form,
+nav .nav-wrapper form .input-field {
+  height: 100%;
+}
+
+.repeated-item.ng-enter,
+.repeated-item.ng-move {
+  transition: all 0.4s linear;
+  opacity: 0;
+}
+
+.repeated-item.ng-enter.ng-enter-active,
+.repeated-item.ng-move.ng-move-active {
+  opacity: 1;
+}
+
+.repeated-item.ng-leave {
+  animation: 0.2s my_animation;
+}
+
+.ng-hide.ng-hide-animate{
+  display: none !important;
+}
+
+@keyframes my_animation {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+</style>
+
+<!-- NavBar -->
+<nav class="#01579b light-blue darken-4 " role="navigation">
+  <div class="nav-wrapper container">
+    <a id="logo-container" href="#" class="brand-logo white-text center-align">{{clubs}}</a>
+    <ul class="right hide-on-med-and-down">
+      <li>  {{ firebaseUser.displayName }}</li>
+      <li><a href="" ng-click="auth.$signOut()"class="white-text"><i class=" white-text right material-icons">input</i>Sign Out</a></li>
+      </ul>
+  </div>
+</nav>
+
+<nav>
+  <div class="nav-wrapper blue darken-2">
+    <form>
+      <div class="input-field">
+        <input id="query" ng-model="query" type="search" required>
+        <label for="search"><i class="material-icons">search</i></label>
+        <i class="material-icons">close</i>
+      </div>
+    </form>
+  </div>
+</nav>
+
+
+<div ng-show="toggleVisible" class="white-text row section #263238 blue-grey darken-4 ">
+  <div class="col s5 offset-s1">
+
+    <br>
+    <br>
+
+    <div ng-show=!toggleEdit class="card black-text z-depth-4">
+      <div class="card-content">
+        <h4>Add Mentor</h4>
+        <form id="fMentor">
+          <ul>
+            <li>
+              <label for="names"><i class="material-icons"></i>Full Name</label>
+              <input  id="names" type="text"   class="validate" ng-model="names" required="" aria-required="true">
+            </li>
+            <li>
+              <label for="position"><i class="material-icons"></i>Department Name</label>
+              <input  id="position" type="text"   class="validate" ng-model="position" required="" aria-required="true">
+            </li>
+            <li>
+              <label for="image"><i class="material-icons"></i>Image Url</label>
+              <input  id="image" type="text"   ng-model="imageurl" required="" aria-required="true">
+            </li>
+
+              <span class="red-text">Contact Details are not Nescessary</span>
+
+            <li>
+              <label for="phone"><i class="material-icons"></i>Phone</label>
+              <input  id="phone" type="text"   ng-model="phone" aria-required="true">
+            </li>
+            <li>
+              <label for="email"><i class="material-icons"></i>Email</label>
+              <input  id="email" type="text"   ng-model="email"  aria-required="true">
+            </li>
+          </ul>
+        </form>
+        <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="addMentor()">Add
+          <i class="material-icons right">input</i>
+        </button>
+        <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideAdd()">Cancel
+          <i class="material-icons right">swap_vert</i>
+        </button>
+      </div>
+    </div>
+
+    <div ng-show=toggleEdit class="card black-text z-depth-4">
+      <div class="card-content">
+        <h4>Edit Mentor</h4>
+        <form id="fMentor">
+          <ul>
+            <li>
+              <label for="names"><i class="material-icons"></i>Full Name</label>
+              <input  id="names" type="text"   class="validate" ng-model="names" required="" aria-required="true">
+            </li>
+            <li>
+              <label for="position"><i class="material-icons"></i>Department Name</label>
+              <input  id="position" type="text"    ng-model="position" required="" aria-required="true">
+            </li>
+            <li>
+              <label for="image"><i class="material-icons"></i>Image Url</label>
+              <input  id="image" type="text"   class="validate" ng-model="imageurl" required="" aria-required="true">
+            </li>
+            <span class="red-text">Contact Details are not Nescessary</span>
+
+            <li>
+              <label for="phone"><i class="material-icons"></i>Phone</label>
+              <input  id="phone" type="text"   ng-model="phone" aria-required="true">
+            </li>
+            <li>
+              <label for="email"><i class="material-icons"></i>Email</label>
+              <input  id="email" type="text"   ng-model="email"  aria-required="true">
+            </li>
+          </ul>
+        </form>
+        <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="editDone()">Done
+          <i class="material-icons right">input</i>
+        </button>
+        <button class="btn waves-effect waves-light #01579b light-blue darken-4"  ng-click="ShowHideEdit()">Cancel
+          <i class="material-icons right">swap_vert</i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="col s6">
+    <br>
+    <br>
+    <br>
+    <br>
+    <h4 class="align center">Preview</h4>
+    <div class="black-text col s12 m8 offset-m2 l6 offset-l3">
+      <div class="card-panel z-depth-4 grey lighten-5 z-depth-1">
+        <div class="row valign-wrapper">
+          <div class="col s3">
+            <img ng-src="{{imageurl}}" alt="" class="circle responsive-img">
+          </div>
+          <div class="col s10">
+            <h5>{{names}}</h5>
+            <span class="black-text">
+              {{position}}
+            </span>
+            <span class="black-text">
+              {{email}}
+            </span>
+            <span class="black-text">
+              {{phone}}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="row">
+  <br>
+  <br>
+  <div class="fixed-action-btn " style="bottom: 45px; right: 24px;">
+    <a class="btn-floating btn-large red z-depth-4" ng-show="!toggleVisible" ng-click="ShowHideAdd()">
+      <i class="material-icons">add</i>
+    </a>
+  </div>
+  <div class="container">
+    <div class="row">
+      <div class="s12 col">
+        <ul class="collection z-depth-4">
+          <li class="collection-item avatar repeated-item " ng-repeat="mem in Mentors | filter:{names: query}">
+            <a href="" class="modal-trigger title"><img ng-src="{{mem.image}}" alt="" class="circle"> {{mem.names}}</a>
+            <a class=" cursor" ng-click="editMode(mem)"><i class="material-icons"  style="cursor:pointer">mode_edit</i></a>
+            <p>{{mem.position}}</p>
+            <p>{{mem.phone}}</p>
+            <p>{{mem.email}}</p>
+
+            <a class="secondary-content cursor" ng-click="removeUser(mem)"><i class="material-icons" style="cursor:pointer">delete</i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+</section>

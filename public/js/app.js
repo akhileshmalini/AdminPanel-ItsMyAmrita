@@ -106,6 +106,46 @@ myApp.config(['$routeProvider', function($routeProvider) {
             }]
         }
     }).
+    when('/mentors', {
+        templateUrl: 'partials/mentor.html',
+        controller: 'MentorController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/dhara', {
+        templateUrl: 'partials/consoleDhara.html',
+        controller: 'ConsoleDharaController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/facultyDhara', {
+        templateUrl: 'partials/facultyDhara.html',
+        controller: 'FacultyDharaController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
+    when('/membersDhara', {
+        templateUrl: 'partials/membersDhara.html',
+        controller: 'MembersDharaController',
+
+        resolve: {
+            "currentAuth": ["Auth", function(Auth) {
+                return Auth.$requireSignIn();
+            }]
+        }
+    }).
     when('/cultural', {
         templateUrl: 'partials/cultural.html',
         controller: 'ClubsController',
