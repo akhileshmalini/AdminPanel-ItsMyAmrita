@@ -145,7 +145,16 @@ myApp.config(['$routeProvider', function($routeProvider) {
                 return Auth.$requireSignIn();
             }]
         }
-    }).
+    }).  when('/Calendars', {
+          templateUrl: 'partials/calendar.html',
+          controller: 'CalendarController',
+
+          resolve: {
+              "currentAuth": ["Auth", function(Auth) {
+                  return Auth.$requireSignIn();
+              }]
+          }
+      }).
     when('/cultural', {
         templateUrl: 'partials/cultural.html',
         controller: 'ClubsController',

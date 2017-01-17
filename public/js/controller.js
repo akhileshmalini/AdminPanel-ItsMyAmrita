@@ -551,6 +551,145 @@ newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http
 
 }]);
 
+
+
+newsControllers.controller('CalendarController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth,Auth, $firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
+
+
+
+    var link = window.location.href;
+    var club = link.substr(link.indexOf("?") + 1);
+    $scope.clubs=club
+
+    var ref = firebase.database().ref();
+    $scope.toggleVisible = false;
+    $scope.toggleEdit = false;
+    $scope.ShowHideAdd = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisible = $scope.toggleVisible ? false : true;
+        $scope.toggleEdit = false;
+        $scope.months = null;
+        $scope.imageurl = " ";
+
+    };
+
+
+    $scope.ShowHideEdit = function() {
+        //If DIV is visible it will be hidden and vice versa.
+        $scope.toggleVisible = $scope.toggleVisible ? false : true;
+        $scope.toggleEdit = true;
+        $scope.months = null;
+        $scope.imageurl = " ";
+
+    };
+
+
+    $scope.Calendars = $firebaseArray(ref.child('Calendar'));
+
+    $scope.addMonths = function() {
+        var nref = $firebaseArray(ref.child('Calendar'));
+        nref.$add({
+            months: $scope.months,
+            image: $scope.imageurl
+
+        });
+        $scope.toggleVisible = false;
+        Materialize.toast('Month Added :)', 4000);
+        $scope.months = null;
+        $scope.imageurl = " ";
+    };
+
+
+
+    $scope.removeUser = function(user) {
+        dref = ref.child('Calendar');
+        $scope.Calendars.$remove(user).then(function(dref) {
+            dref.key === user.$id;
+        });
+        Materialize.toast('Month Removed :(', 4000);
+    };
+
+    $scope.editMode = function(user) {
+        $scope.edituser = user;
+        $scope.months = user.months;
+        $scope.imageurl = user.image;
+
+
+        $scope.toggleVisible = true;
+        $scope.toggleEdit = true;
+
+        Materialize.toast('Edit Mode', 4000);
+    };
+
+
+
+
+    $scope.editDone = function() {
+
+        var m = $scope.edituser;
+        keysa = m.$id;
+
+        var eref = ref.child('Calendar');
+
+
+        for (i = 0; i < $scope.Calendars.length; i++) {
+            if ($scope.Calendars[i].$id === keysa) {
+                $scope.Calendars[i].months = $scope.months;
+                $scope.Calendars[i].image = $scope.imageurl;
+                $scope.Calendars.$save(i).then(function(ref) {
+                    ref.key === $scope.Calendars[i].$id; // true
+                });
+
+            }
+        }
+
+
+        $scope.toggleVisible = false;
+        $scope.toggleEdit = false;
+        $scope.months = null;
+        $scope.imageurl = " ";
+
+        Materialize.toast('Edit Sucessful', 4000);
+    };
+}]);
+
+
+newsControllers.controller('ConsoleController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope, $http, currentAuth, Auth,$firebaseArray) {
+
+  $scope.auth = Auth;
+
+   // any time auth state changes, add the user data to scope
+   $scope.auth.$onAuthStateChanged(function(firebaseUser) {
+     $scope.firebaseUser = firebaseUser;
+     if (!firebaseUser){
+       window.location.href = "/#/home"
+
+     }
+
+   });
+
+
+
+    var link = window.location.href;
+    var club = link.substr(link.indexOf("?") + 1);
+    var upr = club.toUpperCase();
+    $scope.club = upr;
+
+}]);
+
+
 newsControllers.controller('EventController', ['$scope', "currentAuth", '$http',"Auth", "$firebaseArray", function($scope,currentAuth,$http, Auth,$firebaseArray) {
 
   $scope.auth = Auth;
