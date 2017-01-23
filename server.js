@@ -88,7 +88,7 @@ io.on('connection', function (socket) {
       headings: {"en":"itsMyAmrita - "+ datasa.title},
       big_picture:pic,
       data:{"club":datasa.title},
-      small_icon:"amritaicon",
+      small_icon:"ic_launcher",
       included_segments: [datasa.title]
     };
 
